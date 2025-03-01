@@ -14,7 +14,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.*;
 
-public class OAuthWithPojoTest_7 {
+public class OAuthWithPojoTest_8 {
 
     @Test()
     public void oAuthToken(){
