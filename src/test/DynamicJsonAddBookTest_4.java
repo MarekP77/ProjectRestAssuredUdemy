@@ -7,6 +7,8 @@ import io.restassured.path.json.JsonPath;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Random;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -49,9 +51,15 @@ public class DynamicJsonAddBookTest_4 {
     @DataProvider(name="BooksData")
     public Object[][] getData()
     {
-        //array=collection of elements -> array je []
-        //multidimensional array=collection of arrays -> multidimensional je [][]
-        return new Object[][] {{"ojwty", "9363"},{"cwetee", "4253"},{"okmfet", "533"}};
+        return new Object[][] {
+                {"ojwty", generateFourDigitNumber()},
+                {"cwetee", generateFourDigitNumber()},
+                {"okmfet", generateFourDigitNumber()}
+        };
+    }
 
+    private static String generateFourDigitNumber() {
+        Random random = new Random();
+        return String.valueOf(1000 + random.nextInt(9000));
     }
 }
