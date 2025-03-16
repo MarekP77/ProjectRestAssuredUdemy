@@ -17,6 +17,10 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
+/*třída SpecBuilder definuje základní nastavení parametrů jako je login,
+baseURI, ContentType atd. aby byl kód přehlednější
++ je zde serializace vstupního JSONu
+*/
 public class AddPutPlaceWithSerializationAndSpecBuilderTest_10 {
     @Test()
     public void setAddPlace() {
@@ -38,19 +42,22 @@ public class AddPutPlaceWithSerializationAndSpecBuilderTest_10 {
         location.setLng(33.427362);
         addPlace.setLocation(location);
 
-        RequestSpecification requestSpecificationAddplace = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
+        RequestSpecification requestSpecificationAddplace = new RequestSpecBuilder()
+                .setBaseUri("https://rahulshettyacademy.com")
                 .addQueryParam("key", "qaclick123")
                 .setContentType(ContentType.JSON).build();
 
-        ResponseSpecification responseSpecificationAddPlace = new ResponseSpecBuilder().expectStatusCode(200)
+        ResponseSpecification responseSpecificationAddPlace = new ResponseSpecBuilder()
+                .expectStatusCode(200)
                 .expectContentType(ContentType.JSON).build();
 
 
-        RequestSpecification addPlaceResponse = given().filter(new ReUsableMethods.TimingFilter()).log().all()
+        RequestSpecification addPlaceRequest = given()
+                .filter(new ReUsableMethods.TimingFilter()).log().all()
                 .spec(requestSpecificationAddplace)
                 .body(addPlace);
 
-        Response responseAddPlace = addPlaceResponse.when()
+        Response responseAddPlace = addPlaceRequest.when()
                 .post("maps/api/place/add/json")
                 .then()
                 .spec(responseSpecificationAddPlace)
