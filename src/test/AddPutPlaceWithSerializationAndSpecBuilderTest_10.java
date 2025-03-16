@@ -8,8 +8,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.Test;
-import pojo.AddPlace;
-import pojo.Location;
+import pojo.Place.AddPlace;
+import pojo.Place.Location;
 
 import java.util.ArrayList;
 import java.util.List;

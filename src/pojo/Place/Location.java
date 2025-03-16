@@ -1,4 +1,4 @@
-package pojo;
+package pojo.Place;
 
 public class Location {
     private double lat;

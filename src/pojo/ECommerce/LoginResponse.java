@@ -1,4 +1,4 @@
-package pojo;
+package pojo.ECommerce;
 
 public class LoginResponse {
     String token;

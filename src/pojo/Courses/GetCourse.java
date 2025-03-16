@@ -1,4 +1,4 @@
-package pojo;
+package pojo.Courses;
 
 public class GetCourse {
     private String url;

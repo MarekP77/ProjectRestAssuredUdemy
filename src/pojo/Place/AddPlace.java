@@ -1,4 +1,4 @@
-package pojo;
+package pojo.Place;
 
 import java.util.List;
 

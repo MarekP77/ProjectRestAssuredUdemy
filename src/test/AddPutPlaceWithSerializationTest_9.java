@@ -3,7 +3,9 @@ package test;
 import files.ReUsableMethods;
 import io.restassured.RestAssured;
 import org.testng.annotations.Test;
-import pojo.*;
+import pojo.Place.AddPlace;
+import pojo.Place.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 

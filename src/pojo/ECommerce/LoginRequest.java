@@ -1,4 +1,4 @@
-package pojo;
+package pojo.ECommerce;
 
 public class LoginRequest {
     private String userEmail;
