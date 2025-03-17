@@ -1,10 +1,13 @@
 package test;
 
 import files.ReUsableMethods;
+import groovy.json.JsonParser;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.annotations.Test;
@@ -93,11 +96,60 @@ public class ECommerceAPITest_11 {
         Orders orders = new Orders();
         orders.setOrders(orderDetailList);
 
-        //TODO
-/*        RequestSpecification createOrder = given()
-                .spec(requestSpecificationECommerce)
+        RequestSpecification requestSpecificationCreateWithAuth = new RequestSpecBuilder()
+                .setBaseUri("https://rahulshettyacademy.com")
+                .addFilter(new ReUsableMethods.TimingFilter())
+                .addFilter(new RequestLoggingFilter())
+                .addHeader("Authorization", loginToken)
+                .setContentType(ContentType.JSON).build();
+
+        RequestSpecification createOrder = given()
+                .spec(requestSpecificationCreateWithAuth)
+                .body(orders);
+
+        Response responseCreateOrder = createOrder.when()
                 .post("api/ecom/order/create-order")
-                .body(orders);*/
+                .then()
+                .spec(responseSpecificationECommerceCreate)
+                .extract().response();
+
+        String responseCreateOrderAsString = responseCreateOrder.asString();
+
+        JsonPath jsonOrders = new JsonPath(responseCreateOrderAsString);
+        List<Response> listOfOrders = jsonOrders.getList("orders");
+
+        System.out.println("Order: " + listOfOrders);
+
+        String firstOrder = jsonOrders.getString("orders[0]");
+        System.out.println("First order: " + firstOrder);
+
+        //GET View Order Detail
+        RequestSpecification getOrderDetail = given()
+                .spec(requestSpecificationCreate)
+                .queryParam("id", firstOrder);
+
+        Response responseOrderDetail = getOrderDetail.when()
+                .get("api/ecom/order/get-orders-details")
+                .then()
+                .spec(responseSpecificationECommerce)
+                .extract().response();
+
+        String responseOrderDetailAsString =responseOrderDetail.asString();
+        System.out.println(responseOrderDetailAsString);
+
+        //DELETE Product
+        RequestSpecification deleteProduct = given()
+                .spec(requestSpecificationCreate)
+                .pathParams("productId", productId);
+
+        Response responseDeleteProduct = deleteProduct.when()
+                .delete("api/ecom/product/delete-product/{productId}")
+                .then()
+                .spec(responseSpecificationECommerce)
+                .extract().response();
+
+        String responseDeleteProductAsString = responseDeleteProduct.asString();
+        System.out.println(responseDeleteProductAsString);
 
     }
 
