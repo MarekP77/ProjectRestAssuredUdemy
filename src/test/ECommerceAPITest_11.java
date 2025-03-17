@@ -47,6 +47,11 @@ public class ECommerceAPITest_11 {
                 .spec(requestSpecificationECommerce)
                 .body(loginRequest);
 
+        //funkce relaxedHTTPSValidation() umožní ignorovat nevalidní SSL certifikát
+/*        RequestSpecification eCommerceLoginRequest = given().relaxedHTTPSValidation()
+                .spec(requestSpecificationECommerce)
+                .body(loginRequest);*/
+
         LoginResponse loginResponse = eCommerceLoginRequest.when()
                 .post("api/ecom/auth/login")
                 .then().log().all()
