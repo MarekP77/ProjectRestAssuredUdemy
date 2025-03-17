@@ -10,6 +10,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pojo.ECommerce.*;
 
@@ -132,7 +133,8 @@ public class ECommerceAPITest_11 {
                 .spec(responseSpecificationECommerce)
                 .extract().response().asString();
 
-        System.out.println(responseOrderDetail);
+        JsonPath jsonResponseOrderDetail = new JsonPath(responseOrderDetail);
+        System.out.println(jsonResponseOrderDetail.prettify());
 
         //DELETE Product
         RequestSpecification deleteProduct = given()
@@ -145,6 +147,9 @@ public class ECommerceAPITest_11 {
                 .spec(responseSpecificationECommerce)
                 .extract().response().asString();
 
-        System.out.println(responseDeleteProduct);
+        JsonPath jsonResponseDeleteProduct = new JsonPath(responseDeleteProduct);
+        System.out.println(jsonResponseDeleteProduct.prettify());
+
+        Assert.assertEquals("Product Deleted Successfully", jsonResponseDeleteProduct.get("message"));
     }
 }
