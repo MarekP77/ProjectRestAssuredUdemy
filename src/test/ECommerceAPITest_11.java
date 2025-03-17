@@ -107,15 +107,13 @@ public class ECommerceAPITest_11 {
                 .spec(requestSpecificationCreateWithAuth)
                 .body(orders);
 
-        Response responseCreateOrder = createOrder.when()
+        String responseCreateOrder = createOrder.when()
                 .post("api/ecom/order/create-order")
                 .then()
                 .spec(responseSpecificationECommerceCreate)
-                .extract().response();
+                .extract().response().asString();
 
-        String responseCreateOrderAsString = responseCreateOrder.asString();
-
-        JsonPath jsonOrders = new JsonPath(responseCreateOrderAsString);
+        JsonPath jsonOrders = new JsonPath(responseCreateOrder);
         List<Response> listOfOrders = jsonOrders.getList("orders");
 
         System.out.println("Order: " + listOfOrders);
@@ -128,29 +126,25 @@ public class ECommerceAPITest_11 {
                 .spec(requestSpecificationCreate)
                 .queryParam("id", firstOrder);
 
-        Response responseOrderDetail = getOrderDetail.when()
+        String responseOrderDetail = getOrderDetail.when()
                 .get("api/ecom/order/get-orders-details")
                 .then()
                 .spec(responseSpecificationECommerce)
-                .extract().response();
+                .extract().response().asString();
 
-        String responseOrderDetailAsString =responseOrderDetail.asString();
-        System.out.println(responseOrderDetailAsString);
+        System.out.println(responseOrderDetail);
 
         //DELETE Product
         RequestSpecification deleteProduct = given()
                 .spec(requestSpecificationCreate)
                 .pathParams("productId", productId);
 
-        Response responseDeleteProduct = deleteProduct.when()
+        String responseDeleteProduct = deleteProduct.when()
                 .delete("api/ecom/product/delete-product/{productId}")
                 .then()
                 .spec(responseSpecificationECommerce)
-                .extract().response();
+                .extract().response().asString();
 
-        String responseDeleteProductAsString = responseDeleteProduct.asString();
-        System.out.println(responseDeleteProductAsString);
-
+        System.out.println(responseDeleteProduct);
     }
-
 }
